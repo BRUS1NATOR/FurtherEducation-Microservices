@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="User\Commands\**" />
+    <EmbeddedResource Remove="User\Commands\**" />
+    <None Remove="User\Commands\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FurtherEducation.SharedModels\FurtherEducation.SharedModels.csproj" />
+    <ProjectReference Include="..\User.Domain\User.Domain.csproj" />
+    <ProjectReference Include="..\User.Infrastracture\User.Infrastracture.csproj" />
+  </ItemGroup>
+
+</Project>

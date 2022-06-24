@@ -1,0 +1,148 @@
+{
+  //Swagger
+  "SwaggerEndPoints": [
+    {
+      "Key": "User.API",
+      "Config": [
+        {
+          "Name": "User.API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:65100/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Education.API",
+      "Config": [
+        {
+          "Name": "Education.API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:65101/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Profile.API",
+      "Config": [
+        {
+          "Name": "Profile.API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:65102/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Storage.API",
+      "Config": [
+        {
+          "Name": "Storage.API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:65103/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+
+  "Routes": [
+
+    //USERS API
+    {
+      "DownstreamPathTemplate": "/api/v1/User/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65100
+        }
+      ],
+      "UpstreamPathTemplate": "/api/User/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "User.API"
+    },
+    //PROFILE API
+    {
+      "DownstreamPathTemplate": "/api/v1/Profile/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65102
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Profile/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Profile.API"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/StudentDiary/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65102
+        }
+      ],
+      "UpstreamPathTemplate": "/api/StudentDiary/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Profile.API"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/TeacherDiary/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65102
+        }
+      ],
+      "UpstreamPathTemplate": "/api/TeacherDiary/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Profile.API"
+    },
+    //STORAGE API
+    {
+      "DownstreamPathTemplate": "/api/v1/Storage/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65103
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Storage/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Storage.API"
+    },
+    {
+      "DownstreamPathTemplate": "/Images/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65103
+        }
+      ],
+      "UpstreamPathTemplate": "/Storage/Images/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Storage.API"
+    },
+
+    //EDUCATION API ¬  ŒÕ÷≈ “  Œ¡–¿¡¿“€¬¿≈Ã ¬—≈ Œ—“¿¬ÿ»≈—ﬂ –Œ”“€
+    {
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 65101
+        }
+      ],
+      "UpstreamPathTemplate": "/api/{everything}",
+      "FileCacheOptions": { "TtlSeconds": 5 },
+      "SwaggerKey": "Education.API"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://ocelot.local.dev"
+  }
+}

@@ -1,0 +1,197 @@
+version: '3.4'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf/nginx-docker.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/etc/:/etc/nginx/etc/   
+    depends_on:
+      - user.api
+      - education.api
+      - ocelotgateway
+      - keycloak
+    networks:
+      net_nginx:
+        aliases:
+          - ocelot.local.dev
+          - keycloak.local.dev
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    hostname: rabbit
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    #volumes:
+    #    - /path/to/rabbitmq-persistence:/bitnami
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - net_rabbit
+
+  mongo_db:
+    image: mongo
+    container_name: mongo-db
+    ports:
+       - "27017:27017"
+    networks:
+       - net_mongo
+  
+  postgres:
+    container_name: postgres_container
+    image: postgres:13.3
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+    environment:
+      POSTGRES_DB: "keycloak"
+      POSTGRES_USER: "keycloak"
+      POSTGRES_PASSWORD: "password"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - .:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    #healthcheck:
+    #  test: ["CMD-SHELL", "pg_isready -U habrpguser -d habrdb"]
+    #  interval: 10s
+    #  timeout: 5s
+    #  retries: 5
+    #  start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    networks:
+      - net_postgres
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.3
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "BRUSLENKOAL@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "password"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - net_postgres
+
+  keycloak:
+      container_name: keycloak
+      image: quay.io/keycloak/keycloak:16.1.1
+      volumes:
+      - ./keycloak/imports:/keycloak/imports
+      environment:
+        KEYCLOAK_LOGLEVEL: DEBUG
+        ROOT_LOGLEVEL: DEBUG
+        KEYCLOAK_IMPORT: /keycloak/imports/realm-export.json
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+        # KEYCLOAK_FRONTEND_URL: http://keycloak.local.dev
+        PROXY_ADDRESS_FORWARDING: 'true'   # TO WORK BEHIND NGINX
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres
+      networks:
+        - net_nginx
+        - net_postgres
+
+  ocelotgateway:
+    image: ${DOCKER_REGISTRY-}ocelotgateway
+    build:
+      context: .
+      dockerfile: Gateways/OcelotGateway/Dockerfile
+    networks:
+      - net_nginx
+
+  bfftokenhandler:
+    image: ${DOCKER_REGISTRY-}bfftokenhandler
+    build:
+      context: .
+      dockerfile: Gateways/BffTokenHandler/Dockerfile
+    networks:
+      - net_nginx
+
+  user.api:
+    image: ${DOCKER_REGISTRY-}user.api
+    build:
+      context: .
+      dockerfile: User/User.API/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - net_nginx
+      - net_postgres
+      - net_rabbit
+
+  education.api:
+    image: ${DOCKER_REGISTRY-}courses.api
+    build:
+      context: .
+      dockerfile: Education/Education.API/Dockerfile
+    depends_on:
+      - mongo_db
+    networks:
+      - net_nginx
+      - net_mongo
+      - net_rabbit
+
+  profile.api:
+    image: ${DOCKER_REGISTRY-}profile.api
+    build:
+      context: .
+      dockerfile: Profile/Profile.API/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - net_nginx
+      - net_postgres
+      - net_rabbit
+
+  storage.api:
+    image: ${DOCKER_REGISTRY-}storage.api
+    build:
+      context: .
+      dockerfile: Storage.API/Dockerfile
+    volumes:
+      - ./UploadedImages:/app/UploadedImages
+    networks:
+      - net_nginx
+
+networks:  
+  net_nginx:
+    driver: bridge
+  net_rabbit:
+    driver: bridge
+  net_mongo:
+    driver: bridge
+  net_postgres:
+    driver: bridge

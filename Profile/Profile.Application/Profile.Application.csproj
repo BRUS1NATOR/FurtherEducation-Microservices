@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FurtherEducation.SharedModels\FurtherEducation.SharedModels.csproj" />
+    <ProjectReference Include="..\..\Education\Education.Domain\Education.Domain.csproj" />
+    <ProjectReference Include="..\..\Education\Education.Infrastructure\Education.Infrastructure.csproj" />
+    <ProjectReference Include="..\Profile.Domain\Profile.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
