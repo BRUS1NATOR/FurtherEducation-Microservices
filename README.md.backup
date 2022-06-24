@@ -12,5 +12,5 @@ This repository contains only server side application.
 * Install self signed certificate 'RootCA.crt' in browser.
 
 ## Base commands
-* Inspect services methods at http://ocelot.local.dev/swagger (look at right upper corner)
 * Get bearer token by calling https://web.local.dev/bff/auth/token (you should abviously remove this method in production)
+* 
