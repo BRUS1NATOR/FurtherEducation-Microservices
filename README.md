@@ -1,6 +1,5 @@
 # FurtherEducation-Microservices
 ## Overview
-This repository contains only server side application.
 
 ![alt text](about/overview_1.png)  
 
