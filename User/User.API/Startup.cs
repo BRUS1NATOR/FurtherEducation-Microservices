@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.Reflection;
-using User.Api.Services;
 using User.Domain.Data.Interfaces;
 using User.Domain.Data.Repositories;
 using User.Domain.Handlers.Queries;
@@ -56,7 +55,6 @@ namespace User.Domain
             services.AddTransient<IEduMediator, EduMediator>();
 
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserService, UserService>();
 
             services.AddMediator(configurator =>
             {

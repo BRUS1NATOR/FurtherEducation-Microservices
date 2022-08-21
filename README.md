@@ -12,7 +12,7 @@
 
 ## Base commands
 * Inspect services methods at http://ocelot.local.dev/swagger (look at right upper corner)
-* Get bearer token by calling https://web.local.dev/bff/auth/token (you should abviously remove this method in production)
+* Get bearer token by calling https://web.local.dev/bff/auth/token (you should obviously remove this method in production)
 
 ## TODO
 * Service discovery (Consul)

@@ -209,8 +209,8 @@ namespace Education.API
 
                     if (exceptionHandlerPathFeature?.Error is EduException eduException)
                     {
-                        context.Response.StatusCode = eduException.EduExcepionMessage.Code;
-                        await context.Response.WriteAsync(eduException.EduExcepionMessage.Message);
+                        context.Response.StatusCode = eduException.EduExceptionMessage.Code;
+                        await context.Response.WriteAsync(eduException.EduExceptionMessage.Message);
                     }
                     else if (exceptionHandlerPathFeature?.Error != null)
                     {

@@ -6,16 +6,16 @@ namespace FurtherEducation.Common.Exceptions
 {
     public class EduException : Exception
     {
-        public EduExceptionMessage EduExcepionMessage { get; set; }
+        public EduExceptionMessage EduExceptionMessage { get; set; }
 
         public EduException() : base()
         {
-
+            EduExceptionMessage = new EduExceptionMessage();
         }
 
         public EduException(EduExceptionMessage eduExceptionMessage)
         {
-            EduExcepionMessage = eduExceptionMessage;
+            EduExceptionMessage = eduExceptionMessage;
         }
     }
 
@@ -24,7 +24,7 @@ namespace FurtherEducation.Common.Exceptions
         public string Message { get; set; }
         public EduMessage()
         {
-
+            Message = string.Empty;
         }
         public EduMessage(string message)
         {

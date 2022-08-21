@@ -6,6 +6,12 @@
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Mapping\**" />
+    <Content Remove="Mapping\**" />
+    <EmbeddedResource Remove="Mapping\**" />
+    <None Remove="Mapping\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
@@ -15,8 +21,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\FurtherEducation.Common\FurtherEducation.Common.csproj" />
     <ProjectReference Include="..\User.Application\User.Application.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mapping\" />
   </ItemGroup>
 </Project>
