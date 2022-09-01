@@ -7,7 +7,7 @@
 
 ## Network setup (Windows)
 * Add line `127.0.0.1 web.local.dev ocelot.local.dev keycloak.local.dev` to C:\Windows\System32\drivers\etc\hosts
-* Start nginx with config file provided in `nginx` folder and self signed certificates files (craete etc folder with certificates next to config folder).
+* Start nginx with config file provided in `nginx` folder and selfsigned certificates files (create etc folder with certificates next to config folder).
 * Install self signed certificate 'RootCA.crt' in browser.
 
 ## Base commands
